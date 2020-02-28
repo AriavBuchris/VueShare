@@ -31,6 +31,7 @@ type Mutation {
 
 type Query {
     getCurrentUser: User
+    getUserPosts(userId: ID!): [Post] 
     getPosts: [Post]
     getPost(postId: ID!): Post
     infiniteScrollPosts(pageNum: Int!, pageSize: Int!): PostsPage
