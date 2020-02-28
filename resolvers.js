@@ -56,6 +56,19 @@ module.exports = {
             const hasMore = totalDocs > pageSize * pageNum;
             
             return { posts, hasMore };
+        },
+        searchPosts: async (_, { searchTerm }, { Post} ) => {
+            if (searchTerm) {
+                const searchResults = await Post.find(
+                    { $text: { $search: searchTerm } },
+                    { score: { $meta: 'textScore' } } 
+                ).sort({
+                    score: { $meta: 'textScore' },
+                    likes: 'desc'
+                }).limit(5);
+
+                return searchResults;
+            }
         }
     },
     Mutation: {

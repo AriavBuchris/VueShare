@@ -17,7 +17,7 @@
             <v-flex xs12 sm6 offset-sm3>
                 <v-card color="accent" dark>
                     <v-container ma-3>
-                        <v-form v-model="isFormValid" lazy-validation ref="form" @submit.prevent="handleSignunUser">
+                        <v-form v-model="isFormValid" lazy-validation ref="form" @submit.prevent="handleSignupUser">
                             <v-layout row>
                                 <v-flex xs12>
                                     <v-text-field :rules="usernameRules" v-model="username" prepend-icon="face" label="Username" type="text" required></v-text-field>

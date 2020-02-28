@@ -44,8 +44,23 @@
       <v-spacer></v-spacer>
 
       <!-- Search Input -->
-      <v-text-field flex prepend-icon="search" placeholder="Search posts" color="accent"
+      <v-text-field v-model="searchTerm" @input="handleSearchPost" flex prepend-icon="search" placeholder="Search posts" color="accent"
       single-line hide-details></v-text-field>
+      
+      <v-card dark v-if="searchResults.length" id="search__card">
+        <v-list>
+          <v-list-item v-for="result in searchResults" :key="result._id" @click="goToSearchResult(result._id)">
+            <v-list-item-title>
+              {{ result.title }}
+              <span class="font-weight-thin">{{ formatDescription(result.description) }}</span> 
+            </v-list-item-title>
+            <v-list-item-action v-if="checkIfUserFavorite(result._id)">
+              <v-icon>favorite</v-icon>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+      </v-card>
+
       <v-spacer></v-spacer>
 
       <!-- Horizontal Navbar Links -->
@@ -67,7 +82,6 @@
           <v-icon class="hidden-sm-only" left>exit_to_app</v-icon>
           Signout
         </v-btn>
-
       </v-toolbar-items>
     </v-app-bar>
 
@@ -104,7 +118,8 @@ export default {
       sideNav: false,
       authSnackbar: false,
       authErrorSnackbar: false,
-      badgeAnimated: false
+      badgeAnimated: false,
+      searchTerm: ''
     }
   },
   watch: {
@@ -126,7 +141,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["authError", "user", "userFavorites"]),
+    ...mapGetters(["authError", "user", "userFavorites", "searchResults"]),
     horizontalNavItems() {
       let items = [
         { icon: "chat", title: "Posts", link: "/posts" },
@@ -166,6 +181,22 @@ export default {
     },
     toggleSideNav() {
       this.sideNav = !this.sideNav;
+    },
+    handleSearchPost() {
+      this.$store.dispatch('searchPosts', {
+        searchTerm: this.searchTerm
+      });
+    },
+    goToSearchResult(resultId) {
+      this.searchTerm = '';
+      this.$router.push(`/posts/${resultId}`)
+      this.$store.commit('clearSearchResults');
+    },
+    formatDescription(description) {
+      return description.length > 30 ? `${description.slice(0, 20)}...` : description;
+    },
+    checkIfUserFavorite(resultId) {
+      return this.userFavorites && this.userFavorites.some(fave => fave._id === resultId);
     }
   }
 }
@@ -185,6 +216,14 @@ export default {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+
+#search__card {
+  position: absolute;
+  width: 100vw;
+  z-index: 8;
+  top: 100%;
+  left: 0%
 }
 
 .bounce {
