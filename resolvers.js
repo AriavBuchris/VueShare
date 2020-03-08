@@ -90,6 +90,18 @@ module.exports = {
 
             return newPost;
         },
+        updateUserPost: async (_, { userId, postId, title, imageUrl, categories, description }, { Post }) => {
+            const post = await Post.findOneAndUpdate(
+                { _id: postId, createdBy: userId },
+                { $set: { title, imageUrl, categories, description } },
+                { new: true }
+            ).populate({
+                path: 'messages.messageUser',
+                model: 'User'
+            }); 
+
+            return post;
+        },
         addPostMessage: async (_, { messageBody, userId, postId }, { Post }) => {
             const newMessage = {
                 messageBody,
