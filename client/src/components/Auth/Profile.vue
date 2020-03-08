@@ -9,7 +9,7 @@
                     </v-flex>
                     <v-flex xs7 primary-title>
                         <div class="headline">{{ user.username }}</div>
-                        <div>Joined {{ user.joinDate }}</div>
+                        <div>Joined {{ formatJoinDate(user.joinDate) }}</div>
                         <div class="hidden-xs-only font-weight-regular">{{ user.favorites.length }} Favorites</div>
                         <div class="hidden-xs-only font-weight-regular">{{ userPosts.length }} Posts Added</div>
                     </v-flex>
@@ -118,6 +118,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -157,6 +158,9 @@ export default {
             this.$store.dispatch('getUserPosts', {
                 userId: this.user._id
             });
+        },
+        formatJoinDate(date) {
+            return moment(new Date(date)).format('ll');
         },
         handleUpdateUserPost() {
             if (this.$refs.form.validate()) {
