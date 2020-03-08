@@ -62,7 +62,7 @@
                         <v-btn @click="loadPost(post)" class="mt-3" color="info" floating fab small dark>
                             <v-icon>edit</v-icon>
                         </v-btn>
-                        <v-btn class="mt-3" color="error" floating fab small dark>
+                        <v-btn @click="handleDeleteUserPost(post)" class="mt-3" color="error" floating fab small dark>
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <v-spacer></v-spacer>
@@ -171,13 +171,22 @@ export default {
                 this.editPostDialog = false;
             }
         },
-        loadPost({ _id, title, imageUrl, categories, description }) {
-            this.editPostDialog = true;
+        loadPost({ _id, title, imageUrl, categories, description }, editPostDialog = true) {
+            this.editPostDialog = editPostDialog;
             this.postId = _id;
             this.title = title;
             this.imageUrl = imageUrl;
             this.categories = categories;
             this.description = description;
+        },
+        handleDeleteUserPost(post) {
+            this.loadPost(post, false);
+            const deletePost = window.confirm('Are you sure you want to delete this post?');
+            if (deletePost) {
+                this.$store.dispatch('deleteUserPost', {
+                    postId: this.postId
+                });
+            }
         }
     }
 }

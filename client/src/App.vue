@@ -21,6 +21,7 @@
             {{ item.title }}
           </v-list-item-content>
         </v-list-item>
+        
         <!-- Signout Button -->
         <v-list-item v-if="user" @click="handleSignoutUser">
            <v-list-item-action>
@@ -69,6 +70,7 @@
         <v-icon class="hidden-sm-only" left>{{ item.icon }}</v-icon>
         {{ item.title }}
         </v-btn>
+        
         <!-- Profile Button -->
         <v-btn text to="/profile" v-if="user">
           <v-icon class="hidden-sm-only" left>account_box</v-icon>
@@ -77,6 +79,7 @@
             <span slot="badge" v-if="userFavorites.length">{{ userFavorites.length }}</span>
           </v-badge>
         </v-btn>
+        
         <!-- Signout Button -->
         <v-btn text v-if="user" @click="handleSignoutUser">
           <v-icon class="hidden-sm-only" left>exit_to_app</v-icon>
@@ -87,16 +90,18 @@
 
     <!-- App Content -->
     <main>
-      <v-container mt-12>
+      <v-container text-center mt-12>
         <transition name="fade">
           <router-view/>
         </transition>
+        
         <!-- Auth Snackbar -->
         <v-snackbar v-model="authSnackbar" color="success" :timeout='5000' bottom left>
             <v-icon class="mr-3">check_circle</v-icon>
             <h3>You are now signed in!</h3>
             <v-btn dark text @click="authSnackbar = false">Close</v-btn>
         </v-snackbar>
+        
         <!-- AuthError Snackbar -->
         <v-snackbar v-if="authError" v-model="authErrorSnackbar" color="info" :timeout='5000' bottom left>
             <v-icon class="mr-3">cancel</v-icon>

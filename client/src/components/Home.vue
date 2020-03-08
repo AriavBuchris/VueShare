@@ -1,5 +1,6 @@
 <template>
-    <v-container>
+    <v-container text-center>
+        
         <!-- Loading spinner -->
         <v-layout row>
             <v-dialog v-model="loading" persistent fullscreen>
@@ -11,6 +12,7 @@
                 </v-container>
             </v-dialog>
         </v-layout>
+
         <!-- Posts images slideshow -->
         <v-flex xs12>
             <v-carousel v-if="!loading && posts" v-bind="{ 'cycle': true }" interval="3000">
@@ -55,6 +57,5 @@ export default {
     bottom: 50px;
     left: 0;
     right: 0;
-    text-align: center;
 }
 </style>
