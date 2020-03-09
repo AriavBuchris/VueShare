@@ -41,8 +41,9 @@ const getUser = async token => {
         }
     }
 }
+
 // create apollo server for our graphql backend
-const server =  new ApolloServer({
+const server = new ApolloServer({
     typeDefs,
     resolvers,
     formatError: (error) => ({ 
@@ -55,7 +56,7 @@ const server =  new ApolloServer({
     }
 });
 
-// graphql playground runs on port 4000 by default
-server.listen().then(( {url} ) => {
+// default port of graphql playground is 4000
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
     console.log(`Server listening on ${url}`);
 });
