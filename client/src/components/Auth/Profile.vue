@@ -35,7 +35,7 @@
             <v-layout row wrap>
                 <v-flex xs12 sm6 v-for="favorite in userFavorites" :key="favorite._id">
                     <v-card class="mt-3 ml-1 mr-2" hover>
-                        <img style="padding: 20px" height="200px" :src="favorite.imageUrl">
+                        <img @click="goToPost(favorite._id)" style="padding: 20px" height="200px" :src="favorite.imageUrl">
                         <v-card-text>{{ favorite.title }}</v-card-text>
                     </v-card>
                 </v-flex>
@@ -66,7 +66,7 @@
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <v-spacer></v-spacer>
-                        <img style="padding: 10px" height="200px" :src="post.imageUrl">
+                        <img @click="goToPost(post._id)" style="padding: 10px" height="200px" :src="post.imageUrl">
                         <v-card-text>{{ post.title }}</v-card-text>
                     </v-card>
                 </v-flex>
@@ -154,6 +154,9 @@ export default {
         this.handleGetUserPosts();
     },
     methods: {
+        goToPost(id) {
+            this.router.push(`/posts/${id}`);
+        },
         handleGetUserPosts() {
             this.$store.dispatch('getUserPosts', {
                 userId: this.user._id
