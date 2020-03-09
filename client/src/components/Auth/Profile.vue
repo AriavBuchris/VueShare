@@ -155,7 +155,7 @@ export default {
     },
     methods: {
         goToPost(id) {
-            this.router.push(`/posts/${id}`);
+            this.$router.push(`/posts/${id}`);
         },
         handleGetUserPosts() {
             this.$store.dispatch('getUserPosts', {
